@@ -30,7 +30,7 @@ class QuestionsRepository {
     }
 
     suspend fun getQuestions(): List<Question> {
-        val response = client.request("$KOTLIN_QUESTIONS_API_URL/questions2")
+        val response = client.request("$KOTLIN_QUESTIONS_API_URL/questions")
         if (!response.status.isSuccess()) {
             println(response) // TODO logger
             return listOf()
@@ -39,13 +39,13 @@ class QuestionsRepository {
     }
 
     suspend fun getQuestion(id: Long): Question? {
-        val response = client.request("$KOTLIN_QUESTIONS_API_URL/questions2/{$id}")
+        val response = client.request("$KOTLIN_QUESTIONS_API_URL/questions/{$id}")
         if (!response.status.isSuccess()) return null
         return response.body()
     }
 
     suspend fun getUsers(): List<User> {
-        val response = client.request("$KOTLIN_QUESTIONS_API_URL/users2")
+        val response = client.request("$KOTLIN_QUESTIONS_API_URL/users")
         if (!response.status.isSuccess()) return listOf()
         return response.body()
     }
@@ -56,7 +56,7 @@ class QuestionsRepository {
         tags: String
     ): Question {
         val user = getUsers().random()
-        val response = client.post("$KOTLIN_QUESTIONS_API_URL/questions2") {
+        val response = client.post("$KOTLIN_QUESTIONS_API_URL/questions") {
             contentType(ContentType.Application.Json)
             setBody(
                 QuestionData(
